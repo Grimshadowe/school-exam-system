@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Exam Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        input[type="number"], input[type="text"] {
+            width: 80px;
+        }
+
+        #printBtn {
+            margin-top: 15px;
+            padding: 10px 15px;
+        }
+    </style>
+</head>
+<body>
+
+<h2 id="editableTitle" contenteditable="true" style="border-bottom: 1px dashed #ccc; cursor: text;">
+    Mass Exam Results Input
+</h2>
+
+
+<form id="resultForm">
+    <table>
+        <thead>
+            <tr>
+                <th>S/N</th>
+                <th>Name</th>
+                <!-- Subject headers -->
+                <th>Math</th>
+                <th>Eng</th>
+                <th>Kisw</th>
+                <th>Bio</th>
+                <th>Chem</th>
+                <th>Phy</th>
+                <th>CS</th>
+                <th>Geo</th>
+                <th>HTM</th>
+                <th>B/Kep</th>
+                <th>Hist</th>
+                <th>Sports</th>
+                <th>Average</th>
+                <th>Division</th>
+                <th>Position</th>
+            </tr>
+        </thead>
+        <tbody id="resultBody">
+            <!-- Rows will be added here -->
+        </tbody>
+    </table>
+    <br>
+    <button type="button" onclick="addRow()">Add Student</button>
+    <button type="button" onclick="calculateResults()">Calculate</button>
+    <button id="printBtn" onclick="window.print()">Print/Save PDF</button>
+</form>
+
+<script>
+    let studentCount = 0;
+
+    function addRow() {
+        studentCount++;
+        const tbody = document.getElementById("resultBody");
+        const row = document.createElement("tr");
+
+        let cells = `<td>${studentCount}</td>
+                     <td><input type="text" name="name" style="width: 230px"></td>`;
+
+        for (let i = 0; i < 12; i++) {
+            cells += `<td><input type="number" name="score${i}" min="0" max="100"></td>`;
+        }
+
+        cells += `<td class="avg">0</td>
+                  <td class="div">-</td>
+                  <td class="pos">-</td>`;
+
+        row.innerHTML = cells;
+        tbody.appendChild(row);
+    }
+
+    function calculateResults() {
+        const rows = document.querySelectorAll("#resultBody tr");
+        const scoresList = [];
+
+        rows.forEach((row, index) => {
+            const inputs = row.querySelectorAll('input[type="number"]');
+            let total = 0;
+            let count = 0;
+
+            inputs.forEach((input, inputIndex) => {
+                if (inputIndex >= 9 && inputIndex <= 11) {
+                    return;
+                }
+                
+                const val = parseFloat(input.value);
+                if (!isNaN(val)) {
+                    total += val;
+                    count++;
+                }
+            });
+
+            const avg = count > 0 ? (total / count).toFixed(2) : 0;
+            row.querySelector(".avg").innerText = avg;
+            scoresList.push({ index, avg: parseFloat(avg) });
+
+            // Determine division
+            const divisionCell = row.querySelector(".div");
+            if (avg >= 75) divisionCell.innerText = "I";
+            else if (avg >= 60) divisionCell.innerText = "II";
+            else if (avg >= 45) divisionCell.innerText = "III";
+            else divisionCell.innerText = "IV";
+        });
+
+        // Sort for position
+        scoresList.sort((a, b) => b.avg - a.avg);
+        scoresList.forEach((item, i) => {
+            rows[item.index].querySelector(".pos").innerText = i + 1;
+        });
+    }
+</script>
+
+</body>
+</html>
