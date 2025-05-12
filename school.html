@@ -27,6 +27,12 @@
             margin-top: 15px;
             padding: 10px 15px;
         }
+
+        thead th {
+            background-color: black;
+            color: #ccc;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -46,12 +52,12 @@
                 <th>Math</th>
                 <th>Eng</th>
                 <th>Kisw</th>
-                <th>Bio</th>
-                <th>Chem</th>
-                <th>Phy</th>
-                <th>CS</th>
-                <th>Geo</th>
                 <th>HTM</th>
+                <th>Geo</th>
+                <th>Cs</th>
+                <th>Phy</th>
+                <th>Chem</th>
+                <th>Bio</th>
                 <th>B/Kep</th>
                 <th>Hist</th>
                 <th>Sports</th>
@@ -68,6 +74,8 @@
     <button type="button" onclick="addRow()">Add Student</button>
     <button type="button" onclick="calculateResults()">Calculate</button>
     <button id="printBtn" onclick="window.print()">Print/Save PDF</button>
+    <button type="button" onclick="window.location.href='Landing page.html'">Back</button>
+
 </form>
 
 <script>
@@ -103,7 +111,7 @@
             let count = 0;
 
             inputs.forEach((input, inputIndex) => {
-                if (inputIndex >= 9 && inputIndex <= 11) {
+                if (inputIndex >= 5 && inputIndex <= 11) {
                     return;
                 }
                 
