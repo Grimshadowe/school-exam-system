@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title> WELCOME</title>
+    <STYLE>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        button {
+            padding: 15px 25px;
+            font-size: 25px;
+            cursor: pointer;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to the Exam Reporter</h1>
+    <p>Click below to add a new document</p>
+    <button onclick="window.location.href='school.html'">Add DOC</button>
+    <button onclick="window.location.href='write here'">View DOC</button>
+
+</body>
+</html>
+    </STYLE>
+</head>
+</html>
