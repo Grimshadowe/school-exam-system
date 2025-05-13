@@ -2,52 +2,78 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title> WELCOME</title>
+    <title> ERDS </title>
     <STYLE>
     body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
-        margin: 0;
-    }
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #FFA500, #8B4513); /* bright orange to dark brown */
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+}
 
-    h1 {
-        font-size: 40px;
-        color: #333;
-        margin-bottom: 10px;
-    }
+h1 {
+    font-size: clamp(32px, 5vw, 48px);
+    color: #fff;
+    margin-bottom: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+}
 
-    p {
-        font-size: 20px;
-        color: #555;
-        margin-bottom: 30px;
-    }
+p {
+    font-size: clamp(18px, 2.5vw, 24px);
+    color: #f2f2f2;
+    margin-bottom: 28px;
+    max-width: 600px;
+    line-height: 1.6;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
 
-    button {
-        padding: 15px 30px;
-        font-size: 20px;
-        cursor: pointer;
-        background-color: #222;
+button {
+    padding: 14px 28px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: #111;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+.footer-text {
+        position: absolute;
+        bottom: 10px;
+        right: 20px;
         color: #fff;
-        border: none;
-        border-radius: 8px;
-        transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-        background-color: #444;
-    }
+        font-size: 14px;
+        font-weight: 400;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
     </style>
 </head>
 <body>
 
-    <h1>Welcome to the Exam Reporter</h1>
+    <h1>Welcome to the Exam Report DataBase System (ERDS)</h1>
     <p>Click below to add a new document</p>
     <button onclick="window.location.href='school.html'">➕ Add new DOC</button>
+    <div class="footer-text">
+        &copy; 2025 ERDS. Produced By Lincon .H. Kilewo.
+    </div>
     
 </body>
 </html>
