@@ -1,61 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> ERDS </title>
-    <STYLE>
-    body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    margin: 0;
-    background: linear-gradient(135deg, #FFA500, #8B4513); /* bright orange to dark brown */
-    padding: 20px;
-    box-sizing: border-box;
-    text-align: center;
-}
+    <title>Student Exam Results</title>
+    <style>
+       body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #FFA500, #8B4513); /* Orange to brown gradient */
+            color: #333;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
 
-h1 {
-    font-size: clamp(32px, 5vw, 48px);
-    color: #fff;
-    margin-bottom: 12px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
-}
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 36px;
+            color: #fff;
+            border-bottom: 2px dashed rgba(255,255,255,0.5);
+            padding-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
 
-p {
-    font-size: clamp(18px, 2.5vw, 24px);
-    color: #f2f2f2;
-    margin-bottom: 28px;
-    max-width: 600px;
-    line-height: 1.6;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-}
-
-button {
-    padding: 14px 28px;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    background-color: #111;
-    color: #fff;
-    border: none;
+        table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    overflow: hidden;
 }
 
-button:hover {
-    background-color: #333;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
-}
 
-.footer-text {
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 8px;
+            text-align: center;
+        }
+
+        thead th {
+            background-color: #2c3e50;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        input[type="number"], input[type="text"] {
+            width: 90px;
+            padding: 6px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        .btn, button {
+            margin: 10px 5px 0 0;
+            padding: 10px 22px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background-color: #2c3e50;
+            color: #fff;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn:hover, button:hover {
+            background-color: #3e5368;
+            transform: translateY(-2px);
+        }
+
+        #button-container {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        @media screen and (max-width: 768px) {
+            input[type="number"], input[type="text"] {
+                width: 60px;
+            }
+
+            table, th, td {
+                font-size: 12px;
+            }
+
+            .btn, button {
+                font-size: 14px;
+                padding: 8px 14px;
+            }
+        }
+
+        .footer-text {
         position: absolute;
         bottom: 10px;
         right: 20px;
@@ -64,19 +100,128 @@ button:hover {
         font-weight: 400;
         text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
+
     </style>
 </head>
 <body>
 
-    <h1>Welcome to the Exam Report DataBase System (ERDS)</h1>
-    <p>Click below to add a new document</p>
-    <button onclick="window.location.href='school.html'">➕ Add new DOC</button>
+<h2 id="editableTitle" contenteditable="true" style="border-bottom: 1px dashed #ccc; cursor: text;">
+    Exam Results
+</h2>
+
+
+<form id="resultForm">
+    <table>
+        <thead>
+            <tr>
+                <th>S/N</th>
+                <th>Name</th>
+                <!-- Subject headers -->
+                <th>Math</th>
+                <th>Eng</th>
+                <th>Kisw</th>
+                <th>HTM</th>
+                <th>Geo</th>
+                <th>Cs</th>
+                <th>Phy</th>
+                <th>Chem</th>
+                <th>Bio</th>
+                <th>B/Kep</th>
+                <th>Hist</th>
+                <th>Sports</th>
+                <th>Average</th>
+                <th>Division</th>
+                <th>Position</th>
+            </tr>
+        </thead>
+        <tbody id="resultBody">
+            <!-- Rows will be added here -->
+        </tbody>
+    </table>
+    <br>
+    <button type="button" onclick="addRow()">Add Student row</button>
+    <button type="button" onclick="delRow()">Delete Student row</button>
+    <button type="button" onclick="calculateResults()">Calculate</button>
+    <button id="printBtn" onclick="window.print()">Print/Save PDF</button>
+    <button type="button" onclick="window.location.href='Landing page.html'">Back</button>
     <div class="footer-text">
-        &copy; 2025 ERDS. Produced By Lincon .H. Kilewo.
+        &copy; 2025 ERDS. Produced By Lincon, Dhanveer & Islam.
     </div>
-    
+
+</form>
+
+<script>
+    let studentCount = 0;
+
+    function addRow() {
+        studentCount++;
+        const tbody = document.getElementById("resultBody");
+        const row = document.createElement("tr");
+
+        let cells = `<td>${studentCount}</td>
+                     <td><input type="text" name="name" style="width: 230px"></td>`;
+
+        for (let i = 0; i < 12; i++) {
+            cells += `<td><input type="number" name="score${i}" min="0" max="100"></td>`;
+        }
+
+        cells += `<td class="avg">0</td>
+                  <td class="div">-</td>
+                  <td class="pos">-</td>`;
+
+        row.innerHTML = cells;
+        tbody.appendChild(row);
+    }
+
+    function delRow() {
+    const tbody = document.getElementById("resultBody");
+    if (tbody.rows.length > 0) {
+        tbody.deleteRow(tbody.rows.length - 1); // Delete the last row
+        studentCount--; // Decrease the student count
+    }
+}
+
+
+    function calculateResults() {
+        const rows = document.querySelectorAll("#resultBody tr");
+        const scoresList = [];
+
+        rows.forEach((row, index) => {
+            const inputs = row.querySelectorAll('input[type="number"]');
+            let total = 0;
+            let count = 0;
+
+            inputs.forEach((input, inputIndex) => {
+                if (inputIndex >= 5 && inputIndex <= 11) {
+                    return;
+                }
+                
+                const val = parseFloat(input.value);
+                if (!isNaN(val)) {
+                    total += val;
+                    count++;
+                }
+            });
+
+            const avg = count > 0 ? (total / count).toFixed(2) : 0;
+            row.querySelector(".avg").innerText = avg;
+            scoresList.push({ index, avg: parseFloat(avg) });
+
+            // Determine division
+            const divisionCell = row.querySelector(".div");
+            if (avg >= 75) divisionCell.innerText = "I";
+            else if (avg >= 60) divisionCell.innerText = "II";
+            else if (avg >= 45) divisionCell.innerText = "III";
+            else divisionCell.innerText = "IV";
+        });
+
+        // Sort for position
+        scoresList.sort((a, b) => b.avg - a.avg);
+        scoresList.forEach((item, i) => {
+            rows[item.index].querySelector(".pos").innerText = i + 1;
+        });
+    }
+</script>
+
 </body>
-</html>
-    </STYLE>
-</head>
 </html>
