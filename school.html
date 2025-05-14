@@ -139,12 +139,13 @@
         </tbody>
     </table>
     <br>
-    <button type="button" onclick="addRow()">Add Student</button>
+    <button type="button" onclick="addRow()">Add Student row</button>
+    <button type="button" onclick="delRow()">Delete Student row</button>
     <button type="button" onclick="calculateResults()">Calculate</button>
     <button id="printBtn" onclick="window.print()">Print/Save PDF</button>
     <button type="button" onclick="window.location.href='Landing page.html'">Back</button>
     <div class="footer-text">
-        &copy; 2025 ERDS. Produced By Lincon .H. Kilewo.
+        &copy; 2025 ERDS. Produced By Lincon, Dhanveer & Islam.
     </div>
 
 </form>
@@ -171,6 +172,15 @@
         row.innerHTML = cells;
         tbody.appendChild(row);
     }
+
+    function delRow() {
+    const tbody = document.getElementById("resultBody");
+    if (tbody.rows.length > 0) {
+        tbody.deleteRow(tbody.rows.length - 1); // Delete the last row
+        studentCount--; // Decrease the student count
+    }
+}
+
 
     function calculateResults() {
         const rows = document.querySelectorAll("#resultBody tr");
