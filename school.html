@@ -142,7 +142,8 @@
     <button type="button" onclick="addRow()">Add Student row</button>
     <button type="button" onclick="delRow()">Delete Student row</button>
     <button type="button" onclick="calculateResults()">Calculate</button>
-    <button id="printBtn" onclick="window.print()">Print/Save PDF</button>
+    <button type="button" onclick="saveData()">Save</button>
+    <button id="printBtn" onclick="window.print()">Print PDF</button>
     <button type="button" onclick="window.location.href='Landing page.html'">Back</button>
     <div class="footer-text">
         &copy; 2025 ERDS. Produced By Lincon, Dhanveer & Islam.
@@ -174,13 +175,12 @@
     }
 
     function delRow() {
-    const tbody = document.getElementById("resultBody");
-    if (tbody.rows.length > 0) {
-        tbody.deleteRow(tbody.rows.length - 1); // Delete the last row
-        studentCount--; // Decrease the student count
+        const tbody = document.getElementById("resultBody");
+        if (tbody.rows.length > 0) {
+            tbody.deleteRow(tbody.rows.length - 1);
+            studentCount--;
+        }
     }
-}
-
 
     function calculateResults() {
         const rows = document.querySelectorAll("#resultBody tr");
@@ -192,10 +192,7 @@
             let count = 0;
 
             inputs.forEach((input, inputIndex) => {
-                if (inputIndex >= 5 && inputIndex <= 11) {
-                    return;
-                }
-                
+                if (inputIndex >= 5 && inputIndex <= 11) return;
                 const val = parseFloat(input.value);
                 if (!isNaN(val)) {
                     total += val;
@@ -207,7 +204,6 @@
             row.querySelector(".avg").innerText = avg;
             scoresList.push({ index, avg: parseFloat(avg) });
 
-            // Determine division
             const divisionCell = row.querySelector(".div");
             if (avg >= 75) divisionCell.innerText = "I";
             else if (avg >= 60) divisionCell.innerText = "II";
@@ -215,13 +211,68 @@
             else divisionCell.innerText = "IV";
         });
 
-        // Sort for position
         scoresList.sort((a, b) => b.avg - a.avg);
         scoresList.forEach((item, i) => {
             rows[item.index].querySelector(".pos").innerText = i + 1;
         });
     }
+
+    function saveData() {
+        const docData = {
+            title: document.getElementById("editableTitle").innerText,
+            students: []
+        };
+
+        const rows = document.querySelectorAll("#resultBody tr");
+        rows.forEach(row => {
+            const student = {
+                name: row.querySelector('input[name="name"]').value,
+                scores: [],
+                avg: row.querySelector('.avg').innerText,
+                div: row.querySelector('.div').innerText,
+                pos: row.querySelector('.pos').innerText
+            };
+
+            row.querySelectorAll('input[type="number"]').forEach(input => {
+                student.scores.push(input.value);
+            });
+
+            docData.students.push(student);
+        });
+
+        let editKey = localStorage.getItem("editDocKey");
+        if (!editKey) {
+            editKey = "doc_" + Date.now();
+        }
+
+        localStorage.setItem(editKey, JSON.stringify(docData));
+        localStorage.removeItem("editDocKey");
+        alert("Saved successfully!");
+    }
+
+    window.onload = function () {
+        const key = localStorage.getItem("editDocKey");
+        if (key) {
+            const doc = JSON.parse(localStorage.getItem(key));
+            if (doc) {
+                document.getElementById("editableTitle").innerText = doc.title;
+                doc.students.forEach((student, i) => {
+                    addRow();
+                    const row = document.querySelectorAll("#resultBody tr")[i];
+                    row.querySelector('input[name="name"]').value = student.name;
+                    const inputs = row.querySelectorAll('input[type="number"]');
+                    student.scores.forEach((score, j) => {
+                        if (inputs[j]) inputs[j].value = score;
+                    });
+                    row.querySelector(".avg").innerText = student.avg;
+                    row.querySelector(".div").innerText = student.div;
+                    row.querySelector(".pos").innerText = student.pos;
+                });
+            }
+        }
+    }
 </script>
+
 
 </body>
 </html>
