@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>View Exam Results</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #FFA500, #8B4513); /* Orange to brown gradient */
+            color: #333;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background: #2c3e50;
+            color: white;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            background-color: #111;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+        button:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+<h2>Saved Student Exam Results</h2>
+<table id="displayTable">
+    <thead>
+        <tr>
+            <th>Document Title</th>
+            <th>Number of Students</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="displayBody"></tbody>
+</table>
+<br>
+<button onclick="window.location.href='Landing page.html'">Back</button>
+
+<script>
+    function editDoc(key) {
+        localStorage.setItem("editDocKey", key);
+        window.location.href = "school.html";
+    }
+
+    function loadDocs() {
+        const tbody = document.getElementById("displayBody");
+        tbody.innerHTML = "";
+
+        let foundDocs = false;
+        // Iterate all keys in localStorage to find docs saved with "doc_" prefix
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key.startsWith("doc_")) {
+                foundDocs = true;
+                const doc = JSON.parse(localStorage.getItem(key));
+                const row = document.createElement("tr");
+
+                const titleCell = document.createElement("td");
+                titleCell.innerText = doc.title || "Untitled";
+
+                const countCell = document.createElement("td");
+                countCell.innerText = doc.students ? doc.students.length : 0;
+
+                const actionCell = document.createElement("td");
+                const editBtn = document.createElement("button");
+                editBtn.innerText = "Edit";
+                editBtn.onclick = () => editDoc(key);
+                actionCell.appendChild(editBtn);
+
+                row.appendChild(titleCell);
+                row.appendChild(countCell);
+                row.appendChild(actionCell);
+
+                tbody.appendChild(row);
+            }
+        }
+
+        if (!foundDocs) {
+            tbody.innerHTML = "<tr><td colspan='3'>No saved exam documents found.</td></tr>";
+        }
+    }
+
+    window.onload = loadDocs;
+</script>
+
+</body>
+</html>
