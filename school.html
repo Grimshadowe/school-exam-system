@@ -101,6 +101,11 @@
         text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
+        .footer-text.left {
+        right: auto;
+        left: 20px;
+}
+
     </style>
 </head>
 <body>
@@ -144,112 +149,23 @@
     <button type="button" onclick="calculateResults()">Calculate</button>
     <button type="button" onclick="saveData()">Save</button>
     <button id="printBtn" onclick="window.print()">Print PDF</button>
-    <button type="button" onclick="window.location.href='Landing page.html'">Back</button>
+    <button type="button" onclick="window.location.href='index.html'">Back</button>
     <div class="footer-text">
         &copy; 2025 ERDS. Produced By Lincon, Dhanveer & Islam.
     </div>
 
+    <div class="footer-text left">
+    Editing has been Disabled due to Restrictions.
+    <u>CONTACT US</u>
+    <Ul>
+        <li>email: l1nconkiria@gmail.com</li>
+    </Ul>
+    </div>
+
+
 </form>
 
 <script>
-    let studentCount = 0;
-
-    function addRow() {
-        studentCount++;
-        const tbody = document.getElementById("resultBody");
-        const row = document.createElement("tr");
-
-        let cells = `<td>${studentCount}</td>
-                     <td><input type="text" name="name" style="width: 230px"></td>`;
-
-        for (let i = 0; i < 12; i++) {
-            cells += `<td><input type="number" name="score${i}" min="0" max="100"></td>`;
-        }
-
-        cells += `<td class="avg">0</td>
-                  <td class="div">-</td>
-                  <td class="pos">-</td>`;
-
-        row.innerHTML = cells;
-        tbody.appendChild(row);
-    }
-
-    function delRow() {
-        const tbody = document.getElementById("resultBody");
-        if (tbody.rows.length > 0) {
-            tbody.deleteRow(tbody.rows.length - 1);
-            studentCount--;
-        }
-    }
-
-    function calculateResults() {
-        const rows = document.querySelectorAll("#resultBody tr");
-        const scoresList = [];
-
-        rows.forEach((row, index) => {
-            const inputs = row.querySelectorAll('input[type="number"]');
-            let total = 0;
-            let count = 0;
-
-            inputs.forEach((input, inputIndex) => {
-                if (inputIndex >= 5 && inputIndex <= 11) return;
-                const val = parseFloat(input.value);
-                if (!isNaN(val)) {
-                    total += val;
-                    count++;
-                }
-            });
-
-            const avg = count > 0 ? (total / count).toFixed(2) : 0;
-            row.querySelector(".avg").innerText = avg;
-            scoresList.push({ index, avg: parseFloat(avg) });
-
-            const divisionCell = row.querySelector(".div");
-            if (avg >= 75) divisionCell.innerText = "I";
-            else if (avg >= 60) divisionCell.innerText = "II";
-            else if (avg >= 45) divisionCell.innerText = "III";
-            else divisionCell.innerText = "IV";
-        });
-
-        scoresList.sort((a, b) => b.avg - a.avg);
-        scoresList.forEach((item, i) => {
-            rows[item.index].querySelector(".pos").innerText = i + 1;
-        });
-    }
-
-    function saveData() {
-        const docData = {
-            title: document.getElementById("editableTitle").innerText,
-            students: []
-        };
-
-        const rows = document.querySelectorAll("#resultBody tr");
-        rows.forEach(row => {
-            const student = {
-                name: row.querySelector('input[name="name"]').value,
-                scores: [],
-                avg: row.querySelector('.avg').innerText,
-                div: row.querySelector('.div').innerText,
-                pos: row.querySelector('.pos').innerText
-            };
-
-            row.querySelectorAll('input[type="number"]').forEach(input => {
-                student.scores.push(input.value);
-            });
-
-            docData.students.push(student);
-        });
-
-        let editKey = localStorage.getItem("editDocKey");
-        if (!editKey) {
-            editKey = "doc_" + Date.now();
-        }
-
-        localStorage.setItem(editKey, JSON.stringify(docData));
-        localStorage.removeItem("editDocKey");
-        alert("Saved successfully!");
-    }
-
     window.onload = function () {
         const key = localStorage.getItem("editDocKey");
         if (key) {
@@ -270,8 +186,28 @@
                 });
             }
         }
-    }
+
+        // Make all inputs readonly/disabled
+        const inputs = document.querySelectorAll("input");
+        inputs.forEach(input => {
+            input.setAttribute("readonly", true);
+            input.setAttribute("disabled", true);
+        });
+
+        // Disable buttons except "Back"
+        const buttons = document.querySelectorAll("button");
+        buttons.forEach(btn => {
+            if (!btn.innerText.includes("Back")) {
+                btn.disabled = true;
+            }
+        });
+
+        // Disable editable title
+        document.getElementById("editableTitle").removeAttribute("contenteditable");
+        document.getElementById("editableTitle").style.cursor = "default";
+    };
 </script>
+
 
 
 </body>
