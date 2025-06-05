@@ -1,3 +1,3 @@
 TO EXECUTE THE CODES THERE U MUST DOWNLOAD BOTH CODES AND RUN THE LANDING PAGE CODE MAKE SURE TO NAME THE CODES LIKE HOW I NAMED THEM IN UR DEVICE OR ELSE IT WILL GO INTO FLAMES
 
-or u can access it in this link👉🏾 https://sunny-taffy-8d630d.netlify.app/index.html
+or u can access it in this link👉🏾 https://erds.netlify.app/index.html
